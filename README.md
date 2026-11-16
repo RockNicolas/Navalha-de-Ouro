@@ -13,6 +13,8 @@ a clientes como fica uma barbearia com todas as soluções funcionando:
 
 Feito com **React 19 + TypeScript + Vite**, sem bibliotecas extras.
 
+**Online:** https://rocknicolas.github.io/Navalha-de-Ouro/ (painel: `.../Navalha-de-Ouro/#painel`)
+
 ## Rodar
 
 ```bash
@@ -20,6 +22,7 @@ npm install
 npm run dev        # http://localhost:5173
 npm run build      # checa tipos e gera a pasta dist/
 npm run preview    # serve o build de produção
+npm run deploy     # gera o build e publica no GitHub Pages (branch gh-pages)
 ```
 
 ## Roteiro sugerido para apresentar
