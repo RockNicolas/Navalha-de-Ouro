@@ -3,6 +3,8 @@ import { useApp } from '../../context/AppContext';
 import type { BarberId, MgmtTab } from '../../types';
 import { Icon, type IconName } from '../ui/Icon';
 import { AgendaPanel } from './AgendaPanel';
+import { BarberDashboard } from './BarberDashboard';
+import { TeamPanel } from './TeamPanel';
 import { ClientsPanel } from './ClientsPanel';
 import { CommissionsPanel } from './CommissionsPanel';
 import { FinancePanel } from './FinancePanel';
@@ -10,10 +12,12 @@ import { RemindersPanel } from './RemindersPanel';
 import './management.css';
 
 const ALL_TABS: { id: MgmtTab; label: string; mine: string; icon: IconName }[] = [
+  { id: 'desempenho', label: 'Meu mês', mine: 'Meu mês', icon: 'star' },
   { id: 'agenda', label: 'Agenda', mine: 'Minha agenda', icon: 'calendar' },
+  { id: 'equipe', label: 'Equipe', mine: 'Equipe', icon: 'scissors' },
   { id: 'clientes', label: 'Clientes', mine: 'Clientes', icon: 'users' },
   { id: 'financeiro', label: 'Financeiro', mine: 'Financeiro', icon: 'chart' },
-  { id: 'comissoes', label: 'Comissões', mine: 'Minhas comissões', icon: 'scissors' },
+  { id: 'comissoes', label: 'Comissões', mine: 'Minhas comissões', icon: 'card' },
   { id: 'lembretes', label: 'Lembretes', mine: 'Lembretes', icon: 'bell' },
 ];
 
@@ -79,7 +83,11 @@ export function ManagementApp({ tabs, barberId }: ManagementAppProps) {
             tabIndex={0}
             hidden={active !== t.id}
           >
+            {t.id === 'desempenho' && barberId && (
+              <BarberDashboard barberId={barberId} active={active === 'desempenho'} />
+            )}
             {t.id === 'agenda' && <AgendaPanel barberId={barberId} />}
+            {t.id === 'equipe' && <TeamPanel active={active === 'equipe'} />}
             {t.id === 'clientes' && <ClientsPanel />}
             {t.id === 'financeiro' && <FinancePanel active={active === 'financeiro'} />}
             {t.id === 'comissoes' && <CommissionsPanel barberId={barberId} />}

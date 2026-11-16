@@ -23,6 +23,8 @@ interface DemoUser extends Session {
 export const DEMO_USERS: DemoUser[] = [
   { name: 'Marcelo', email: 'dono@navalhadeouro.com.br', password: 'demo123', role: 'dono' },
   { name: 'Rafael', email: 'rafael@navalhadeouro.com.br', password: 'demo123', role: 'barbeiro', barberId: 'rafael' },
+  { name: 'Diego', email: 'diego@navalhadeouro.com.br', password: 'demo123', role: 'barbeiro', barberId: 'diego' },
+  { name: 'Thiago', email: 'thiago@navalhadeouro.com.br', password: 'demo123', role: 'barbeiro', barberId: 'thiago' },
 ];
 
 const KEY = 'ndo-session';
@@ -34,7 +36,9 @@ export function login(email: string, password: string): Session | null {
   return user ? toSession(user) : null;
 }
 
-export const demoSession = (role: Role): Session => toSession(DEMO_USERS.find((u) => u.role === role) ?? DEMO_USERS[0]);
+/** Entra direto com um usuário de demonstração (botões da tela de login). */
+export const demoSession = (email: string): Session =>
+  toSession(DEMO_USERS.find((u) => u.email === email) ?? DEMO_USERS[0]);
 
 export function readSession(): Session | null {
   try {

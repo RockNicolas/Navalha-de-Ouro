@@ -1,7 +1,11 @@
 import { useState, type FormEvent } from 'react';
 import { SHOP } from '../../config';
-import { demoSession, login, type Session } from '../../lib/session';
+import { getBarber } from '../../data/catalog';
+import { DEMO_USERS, demoSession, login, type Session } from '../../lib/session';
+import { Avatar } from '../ui/Avatar';
 import { Icon } from '../ui/Icon';
+
+const BARBER_USERS = DEMO_USERS.filter((u) => u.role === 'barbeiro');
 
 interface PanelLoginProps {
   onLogin: (session: Session) => void;
@@ -77,16 +81,24 @@ export function PanelLogin({ onLogin }: PanelLoginProps) {
           <p className="login-divider">
             <span>Acesso de demonstração</span>
           </p>
-          <div className="login-demo-actions">
-            <button type="button" className="btn btn-ghost btn-sm" onClick={() => onLogin(demoSession('dono'))}>
-              <Icon name="chart" /> Entrar como dono
-            </button>
-            <button type="button" className="btn btn-ghost btn-sm" onClick={() => onLogin(demoSession('barbeiro'))}>
-              <Icon name="scissors" /> Entrar como barbeiro
-            </button>
+          <button
+            type="button"
+            className="btn btn-ghost btn-sm btn-block"
+            onClick={() => onLogin(demoSession('dono@navalhadeouro.com.br'))}
+          >
+            <Icon name="chart" /> Entrar como dono ({SHOP.owner})
+          </button>
+          <p className="login-sub">Ou entre como um dos barbeiros:</p>
+          <div className="login-barbers">
+            {BARBER_USERS.map((u) => (
+              <button key={u.email} type="button" className="login-barber" onClick={() => onLogin(demoSession(u.email))}>
+                <Avatar name={u.name} hue={u.barberId ? getBarber(u.barberId).hue : 38} size="md" />
+                <span>{u.name}</span>
+              </button>
+            ))}
           </div>
           <p className="small muted login-note">
-            O dono vê tudo. O barbeiro vê só a própria agenda e as próprias comissões.
+            O dono vê a barbearia inteira. Cada barbeiro vê só os próprios atendimentos, faturamento e comissão.
           </p>
         </div>
       </div>

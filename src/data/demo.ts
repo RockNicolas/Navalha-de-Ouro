@@ -87,23 +87,50 @@ export const CLIENTS: Client[] = [
   },
 ];
 
-export const WEEK_REVENUE: { day: string; value: number }[] = [
-  { day: 'Seg', value: 1180 },
-  { day: 'Ter', value: 1340 },
-  { day: 'Qua', value: 1520 },
-  { day: 'Qui', value: 1890 },
-  { day: 'Sex', value: 2760 },
-  { day: 'Sáb', value: 3450 },
-];
+/*
+ * Desempenho do mês por barbeiro. É a ÚNICA fonte dos números do painel:
+ * faturamento, atendimentos, comissões e o financeiro do dono são calculados
+ * a partir daqui (ver data/stats.ts), então tudo fecha entre si.
+ */
+export interface BarberMonth {
+  /** Quantidade de cada serviço feito no mês. */
+  services: Partial<Record<ServiceId, number>>;
+  /** Clientes diferentes atendidos no mês. */
+  clients: number;
+  /** % desses clientes que já tinham vindo antes. */
+  returning: number;
+  /** Faturamento de segunda a sábado desta semana. */
+  week: number[];
+}
+
+export const BARBER_MONTH: Record<BarberId, BarberMonth> = {
+  rafael: {
+    services: { corte: 48, combo: 40, pigmentacao: 14, sobrancelha: 10, barba: 6 },
+    clients: 84,
+    returning: 78,
+    week: [420, 490, 560, 700, 1050, 1330],
+  },
+  diego: {
+    services: { combo: 36, barba: 34, corte: 22, sobrancelha: 6, pigmentacao: 2, infantil: 2 },
+    clients: 71,
+    returning: 81,
+    week: [350, 385, 455, 560, 840, 1050],
+  },
+  thiago: {
+    services: { corte: 38, infantil: 30, combo: 14, barba: 6, sobrancelha: 4 },
+    clients: 66,
+    returning: 74,
+    week: [280, 315, 385, 455, 700, 875],
+  },
+};
+
+export const WEEK_DAYS = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
 export const MONTH = {
-  revenue: 16360,
-  appointments: 312,
   subscribers: 38,
   subscriptionAverage: 129,
 };
 
-export const BARBER_SALES: Record<BarberId, number> = { rafael: 6420, diego: 5180, thiago: 4760 };
 export const DEFAULT_COMMISSION: Record<BarberId, number> = { rafael: 40, diego: 40, thiago: 35 };
 
 export interface Plan {

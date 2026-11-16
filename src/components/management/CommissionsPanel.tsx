@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { BARBERS } from '../../data/catalog';
-import { BARBER_SALES, DEFAULT_COMMISSION } from '../../data/demo';
+import { DEFAULT_COMMISSION } from '../../data/demo';
+import { barberSales } from '../../data/stats';
 import { brl } from '../../lib/format';
 import type { BarberId } from '../../types';
 import { Avatar } from '../ui/Avatar';
@@ -11,8 +12,8 @@ export function CommissionsPanel({ barberId }: { barberId?: BarberId }) {
   const rows = barberId ? BARBERS.filter((b) => b.id === barberId) : BARBERS;
   const isOwner = !barberId;
 
-  const totalSales = rows.reduce((s, b) => s + BARBER_SALES[b.id], 0);
-  const totalComm = rows.reduce((s, b) => s + (BARBER_SALES[b.id] * pct[b.id]) / 100, 0);
+  const totalSales = rows.reduce((s, b) => s + barberSales(b.id), 0);
+  const totalComm = rows.reduce((s, b) => s + (barberSales(b.id) * pct[b.id]) / 100, 0);
 
   const update = (id: BarberId, value: number) =>
     setPct((p) => ({ ...p, [id]: Math.min(100, Math.max(0, Number.isFinite(value) ? value : 0)) }));
@@ -44,7 +45,7 @@ export function CommissionsPanel({ barberId }: { barberId?: BarberId }) {
                     {b.name}
                   </span>
                 </th>
-                <td>{brl(BARBER_SALES[b.id])}</td>
+                <td>{brl(barberSales(b.id))}</td>
                 <td>
                   {isOwner ? (
                     <span className="cm-pct">
@@ -63,7 +64,7 @@ export function CommissionsPanel({ barberId }: { barberId?: BarberId }) {
                     <b>{pct[b.id]}%</b>
                   )}
                 </td>
-                <td className="gold strong">{brl((BARBER_SALES[b.id] * pct[b.id]) / 100)}</td>
+                <td className="gold strong">{brl((barberSales(b.id) * pct[b.id]) / 100)}</td>
               </tr>
             ))}
           </tbody>

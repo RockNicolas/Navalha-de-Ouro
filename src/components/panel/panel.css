@@ -104,22 +104,37 @@
   background: var(--line-2);
 }
 
-.login-demo-actions {
+.login-sub {
+  margin: 16px 0 10px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.login-barbers {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
 }
 
-.login-demo-actions .btn {
-  padding-inline: 10px;
-  white-space: normal;
-  line-height: 1.2;
+.login-barber {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 12px 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line-2);
+  background: rgba(243, 236, 224, 0.03);
+  font-weight: 600;
+  font-size: 0.88rem;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
 }
 
-@media (max-width: 379px) {
-  .login-demo-actions {
-    grid-template-columns: 1fr;
-  }
+.login-barber:hover {
+  border-color: var(--gold);
+  background: var(--gold-soft);
 }
 
 .login-note {

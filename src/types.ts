@@ -2,7 +2,7 @@ export type ServiceId = 'corte' | 'barba' | 'combo' | 'infantil' | 'sobrancelha'
 export type ServiceCategory = 'cabelo' | 'barba' | 'combo';
 export type BarberId = 'rafael' | 'diego' | 'thiago';
 export type BarberChoice = BarberId | 'any';
-export type MgmtTab = 'agenda' | 'clientes' | 'financeiro' | 'comissoes' | 'lembretes';
+export type MgmtTab = 'desempenho' | 'agenda' | 'equipe' | 'clientes' | 'financeiro' | 'comissoes' | 'lembretes';
 
 export interface Service {
   id: ServiceId;

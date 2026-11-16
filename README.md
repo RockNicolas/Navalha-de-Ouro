@@ -20,12 +20,22 @@ Feito com **React 19 + TypeScript + Vite**, sem bibliotecas extras.
 
 ## Login do painel (demonstração)
 
-Na tela de login há os botões **Entrar como dono** e **Entrar como barbeiro**. Também dá para digitar:
+Na tela de login há o botão **Entrar como dono** e um botão para cada barbeiro. Também dá para digitar
+(senha `demo123` para todos):
 
-| Perfil | E-mail | Senha | Vê |
-| --- | --- | --- | --- |
-| Dono | `dono@navalhadeouro.com.br` | `demo123` | Tudo |
-| Barbeiro | `rafael@navalhadeouro.com.br` | `demo123` | Só a própria agenda e as próprias comissões |
+| Perfil | E-mail | O que vê |
+| --- | --- | --- |
+| Dono (Marcelo) | `dono@navalhadeouro.com.br` | Tudo: agenda geral, **Equipe** (desempenho e painel de cada barbeiro), clientes, financeiro, comissões e lembretes |
+| Barbeiro Rafael | `rafael@navalhadeouro.com.br` | Só o dele: **Meu mês**, Minha agenda e Minhas comissões |
+| Barbeiro Diego | `diego@navalhadeouro.com.br` | Só o dele |
+| Barbeiro Thiago | `thiago@navalhadeouro.com.br` | Só o dele |
+
+**Meu mês** (painel individual): atendimentos e cortes no mês, faturado, comissão a receber, avaliação,
+serviços feitos, agenda de hoje com o próximo cliente e faturamento da semana. O dono vê esse mesmo painel
+de cada barbeiro pela aba **Equipe**.
+
+Os números de exemplo saem de uma única fonte (`BARBER_MONTH` em `src/data/demo.ts`): a soma dos barbeiros
+é o faturamento da barbearia no financeiro e nas comissões.
 
 > Esse login é **simulado no navegador**, só para demonstrar a separação. Para um cliente real, o login e os
 > agendamentos precisam de um servidor (ex.: Supabase), e cada pessoa tem a sua própria senha.
