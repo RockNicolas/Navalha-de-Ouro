@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "deploy": "tsc --noEmit && vite build --mode gh-pages && gh-pages -d dist --nojekyll -m \"Publica o site\"",
+    "deploy": "tsc --noEmit && vite build --mode gh-pages && node scripts/gh-pages-extras.mjs && gh-pages -d dist --nojekyll -m \"Publica o site\"",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
