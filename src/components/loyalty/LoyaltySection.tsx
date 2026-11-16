@@ -6,18 +6,17 @@ import './loyalty.css';
 
 export function LoyaltySection() {
   return (
-    <section className="section section-alt" id="fidelidade" aria-labelledby="fidelidade-title">
+    <section className="section section-alt" id="clube" aria-labelledby="clube-title">
       <div className="container">
         <SectionHead
-          id="fidelidade-title"
-          number="05"
-          eyebrow="Assinatura e fidelidade"
+          id="clube-title"
+          eyebrow="Clube Navalha"
           title={
             <>
-              Cliente que assina <span className="gold">volta todo mês</span>
+              Cabelo na régua <span className="gold">o mês inteiro</span>
             </>
           }
-          lead="Clube de assinatura mensal com cobrança recorrente e cartão fidelidade digital, sem papelzinho pra perder."
+          lead="Assine o Clube, pague uma vez por mês e venha quando quiser. Ainda não é assinante? Cada visita vale um selo no cartão fidelidade."
         />
         <div className="loyal-grid">
           <Reveal>

@@ -1,8 +1,8 @@
-import { WHATSAPP_NUMBER, WHATSAPP_PLACEHOLDER } from '../config';
+import { WHATSAPP_PLACEHOLDER } from '../config';
 
 /** Link wa.me com mensagem pronta. Sem número configurado, abre sem destinatário. */
-export function waUrl(text: string): string {
-  const base = WHATSAPP_NUMBER === WHATSAPP_PLACEHOLDER ? 'https://wa.me/' : `https://wa.me/${WHATSAPP_NUMBER}`;
+export function waUrl(number: string, text: string): string {
+  const base = number === WHATSAPP_PLACEHOLDER ? 'https://wa.me/' : `https://wa.me/${number}`;
   return `${base}?text=${encodeURIComponent(text)}`;
 }
 

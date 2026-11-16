@@ -4,7 +4,7 @@ import { initials } from '../../lib/format';
 interface AvatarProps {
   name: string;
   hue?: number;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
 /** Avatar com iniciais sobre gradiente (sem fotos externas). */

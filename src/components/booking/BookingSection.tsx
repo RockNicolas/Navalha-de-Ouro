@@ -6,14 +6,17 @@ import './booking.css';
 
 export function BookingSection() {
   return (
-    <section className="section section-alt" id="agendar" aria-labelledby="agendar-title">
+    <section className="section" id="agendar" aria-labelledby="agendar-title">
       <div className="container">
         <SectionHead
           id="agendar-title"
-          number="02"
           eyebrow="Agendamento online"
-          title="Teste agora: marque um horário de verdade"
-          lead="O cliente escolhe o serviço, o profissional e o horário sozinho, sem precisar chamar no WhatsApp. Faça um agendamento e veja ele aparecer no lembrete e no painel de gestão logo abaixo."
+          title={
+            <>
+              Agende em <span className="gold">menos de 1 minuto</span>
+            </>
+          }
+          lead="Escolha o serviço, o barbeiro e o horário. Sem ligação e sem esperar resposta no WhatsApp: o horário fica garantido na hora."
         />
         <div className="booking-grid">
           <Reveal className="card booking">

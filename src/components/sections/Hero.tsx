@@ -1,106 +1,92 @@
+import { useMemo } from 'react';
+import { SHOP } from '../../config';
 import { useApp } from '../../context/AppContext';
-import { Icon, type IconName } from '../ui/Icon';
+import { useNow } from '../../hooks/useNow';
+import { dayLabel } from '../../lib/dates';
+import { openStatus } from '../../lib/hours';
+import { nextFreeSlot } from '../../lib/slots';
+import { Icon } from '../ui/Icon';
+import { Emblem } from './Emblem';
 import './hero.css';
 
-const CHIPS: { icon: IconName; label: string }[] = [
-  { icon: 'globe', label: 'Site' },
-  { icon: 'calendar', label: 'Agendamento' },
-  { icon: 'bell', label: 'WhatsApp' },
-  { icon: 'chart', label: 'Gestão' },
-  { icon: 'card', label: 'Fidelidade' },
-];
-
 export function Hero() {
-  const { shop } = useApp();
+  const { bookings, requestBooking } = useApp();
+  const now = useNow();
+  const status = openStatus(now);
+  /* Recalcula a cada minuto (now) e a cada novo agendamento. */
+  const next = useMemo(() => nextFreeSlot(bookings), [bookings, now]);
 
   return (
-    <section className="hero" aria-labelledby="hero-title">
+    <section className="hero" id="topo" aria-labelledby="hero-title">
       <div className="hero-glow" aria-hidden="true" />
       <div className="container hero-grid">
         <div className="hero-copy">
           <p className="eyebrow">
             <span className="pole-dot" aria-hidden="true" />
-            Rock Software Solutions · Tecnologia para barbearias
+            Barbearia · desde {SHOP.since} · {SHOP.district}
           </p>
           <h1 id="hero-title">
-            Sua barbearia <em>lotada</em>.<br />
-            Sua agenda <em>no automático</em>.
+            Corte na régua, <em>barba no capricho</em>.
           </h1>
           <p className="lead">
-            Site profissional, agendamento online, lembretes por WhatsApp, gestão completa e clube de assinatura.
-            Tudo pensado pra rotina da <strong>{shop}</strong>, e dá pra testar cada parte aqui mesmo.
+            Escolha o serviço, o barbeiro e o horário pelo celular, receba o lembrete no WhatsApp e ganhe corte grátis
+            no cartão fidelidade. Simples assim na {SHOP.name}.
           </p>
           <div className="hero-ctas">
-            <a className="btn btn-gold" href="#site">
-              Ver na prática <Icon name="arrow" />
+            <a className="btn btn-gold" href="#agendar">
+              <Icon name="calendar" /> Agendar horário
             </a>
-            <a className="btn btn-ghost" href="#contato">
-              Quero para minha barbearia
+            <a className="btn btn-ghost" href="#servicos">
+              Ver serviços e preços
             </a>
           </div>
-          <ul className="chips" aria-label="O que está incluso">
-            {CHIPS.map((c) => (
-              <li key={c.label}>
-                <Icon name={c.icon} />
-                {c.label}
-              </li>
-            ))}
+          <ul className="hero-meta">
+            <li>
+              <span className="stars" aria-hidden="true">★★★★★</span>
+              <span>
+                <b>{SHOP.rating.toLocaleString('pt-BR')}</b> · {SHOP.reviewCount} avaliações no Google
+              </span>
+            </li>
+            <li className={status.open ? 'is-open' : 'is-closed'}>
+              <span className="dot" aria-hidden="true" />
+              {status.text}
+            </li>
+            <li>
+              <Icon name="pin" />
+              {SHOP.address} · {SHOP.district}
+            </li>
           </ul>
         </div>
 
-        <div className="hero-visual" aria-hidden="true">
-          <div className="pole-bar" />
-          <div className="phone">
-            <div className="phone-notch" />
-            <div className="phone-screen">
-              <div className="ps-head">
-                <span className="ps-logo">{shop.charAt(0).toUpperCase()}</span>
-                <div>
-                  <b>{shop}</b>
-                  <small>Agendar horário</small>
-                </div>
-              </div>
-              <p className="ps-label">Serviço</p>
-              <div className="ps-chips">
-                <span>Corte</span>
-                <span className="on">Corte + Barba</span>
-                <span>Barba</span>
-              </div>
-              <p className="ps-label">Profissional</p>
-              <div className="ps-barbers">
-                <span className="av" style={{ ['--hue' as string]: 38 }}>R</span>
-                <span className="av on" style={{ ['--hue' as string]: 4 }}>D</span>
-                <span className="av" style={{ ['--hue' as string]: 212 }}>T</span>
-              </div>
-              <p className="ps-label">Horário · amanhã</p>
-              <div className="ps-slots">
-                <span>09:00</span>
-                <span className="off">09:30</span>
-                <span>10:00</span>
-                <span className="off">13:30</span>
-                <span className="on">15:30</span>
-                <span>16:00</span>
-              </div>
-              <span className="ps-btn">Confirmar agendamento</span>
-            </div>
-          </div>
-          <div className="float-card fc-1">
+        <div className="hero-visual">
+          <div className="pole-bar" aria-hidden="true" />
+          <Emblem />
+          {next && (
+            <button
+              type="button"
+              className="float-card fc-next"
+              onClick={() => requestBooking()}
+              aria-label={`Próximo horário livre: ${dayLabel(next.date)} às ${next.time}. Agendar`}
+            >
+              <span className="fc-ico gold">
+                <Icon name="clock" />
+              </span>
+              <span>
+                <b>Próximo horário livre</b>
+                <small>
+                  {dayLabel(next.date)} às {next.time} · agendar
+                </small>
+              </span>
+            </button>
+          )}
+          <div className="float-card fc-wa" aria-hidden="true">
             <span className="fc-ico wa">
               <Icon name="wa" />
             </span>
-            <div>
-              <b>Lembrete enviado</b>
-              <small>Amanhã, 15:30 · confirmado ✓</small>
-            </div>
-          </div>
-          <div className="float-card fc-2">
-            <span className="fc-ico gold">
-              <Icon name="gift" />
+            <span>
+              <b>Lembrete no WhatsApp</b>
+              <small>Seu horário é amanhã às 15:30 ✓</small>
             </span>
-            <div>
-              <b>Cartão fidelidade</b>
-              <small>9 de 10 · falta 1 pro corte grátis</small>
-            </div>
           </div>
         </div>
       </div>

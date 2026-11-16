@@ -23,7 +23,7 @@ export function BarberStep({ selected, onSelect }: BarberStepProps) {
           <Icon name="users" />
         </span>
         <span className="opt-name">Sem preferência</span>
-        <span className="opt-meta">Mais horários livres</span>
+        <span className="opt-meta">Quem estiver livre</span>
       </button>
     </div>
   );

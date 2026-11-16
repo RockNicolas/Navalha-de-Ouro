@@ -1,19 +1,27 @@
 import type { Barber, BarberId, Service, ServiceId } from '../types';
 
-/** Serviços e preços de exemplo usados nas demonstrações. */
 export const SERVICES: Service[] = [
-  { id: 'corte', name: 'Corte', minutes: 40, price: 45, desc: 'Tesoura ou máquina, com lavagem' },
-  { id: 'barba', name: 'Barba', minutes: 30, price: 35, desc: 'Toalha quente e navalha' },
-  { id: 'combo', name: 'Corte + Barba', minutes: 70, price: 70, desc: 'O pacote completo', tag: 'Mais pedido' },
-  { id: 'sobrancelha', name: 'Sobrancelha', minutes: 15, price: 15, desc: 'Acabamento na navalha' },
-  { id: 'pigmentacao', name: 'Pigmentação', minutes: 40, price: 60, desc: 'Disfarça falhas e realça o corte' },
+  { id: 'corte', name: 'Corte', minutes: 40, price: 45, category: 'cabelo', desc: 'Tesoura ou máquina, com lavagem e finalização' },
+  { id: 'barba', name: 'Barba', minutes: 30, price: 35, category: 'barba', desc: 'Toalha quente, navalha e hidratação' },
+  { id: 'combo', name: 'Corte + Barba', minutes: 70, price: 70, category: 'combo', desc: 'O pacote completo, com toalha quente', tag: 'Mais pedido' },
+  { id: 'infantil', name: 'Corte infantil', minutes: 30, price: 40, category: 'cabelo', desc: 'Até 12 anos, com toda a paciência' },
+  { id: 'sobrancelha', name: 'Sobrancelha', minutes: 15, price: 15, category: 'barba', desc: 'Acabamento na navalha' },
+  { id: 'pigmentacao', name: 'Pigmentação', minutes: 40, price: 60, category: 'cabelo', desc: 'Disfarça falhas e realça o desenho do corte' },
 ];
 
-/** Profissionais fictícios. */
 export const BARBERS: Barber[] = [
-  { id: 'rafael', name: 'Rafael', specialty: 'Degradê e navalhado', hue: 38 },
-  { id: 'diego', name: 'Diego', specialty: 'Barba e corte clássico', hue: 4 },
-  { id: 'thiago', name: 'Thiago', specialty: 'Social e infantil', hue: 212 },
+  {
+    id: 'rafael', name: 'Rafael', specialty: 'Degradê e navalhado', years: 9, rating: 4.9, hue: 38,
+    bio: 'Fera do degradê. Detalhista, não deixa você sair com o pezinho torto.',
+  },
+  {
+    id: 'diego', name: 'Diego', specialty: 'Barba e corte clássico', years: 7, rating: 5.0, hue: 4,
+    bio: 'Barba com toalha quente e acabamento na navalha. Clássico de verdade.',
+  },
+  {
+    id: 'thiago', name: 'Thiago', specialty: 'Social e infantil', years: 5, rating: 4.8, hue: 212,
+    bio: 'Paciência de sobra com a criançada e corte social impecável.',
+  },
 ];
 
 export function getService(id: ServiceId): Service {

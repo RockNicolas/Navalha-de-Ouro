@@ -36,35 +36,95 @@
 }
 
 .brand-mark {
-  width: 38px;
-  height: 38px;
-  border-radius: 11px;
-  display: grid;
-  place-items: center;
-  font-family: var(--f-display);
-  font-weight: 800;
-  font-size: 1.25rem;
-  color: #17130b;
-  background: linear-gradient(135deg, var(--gold-2), var(--gold));
-  box-shadow: 0 8px 22px -10px rgba(201, 162, 75, 0.9);
+  width: 40px;
+  height: 40px;
+  flex: none;
+  filter: drop-shadow(0 6px 14px rgba(201, 162, 75, 0.35));
+}
+
+.brand-mark svg {
+  width: 100%;
+  height: 100%;
+}
+
+.brand-mark circle {
+  fill: #15130f;
+  stroke: var(--gold);
+  stroke-width: 1.5;
+}
+
+.brand-mark .bm-blade {
+  fill: var(--gold-2);
+}
+
+.brand-mark .bm-handle {
+  stroke: var(--gold);
+  stroke-width: 3;
+  stroke-linecap: round;
+  fill: none;
 }
 
 .brand-text {
   font-family: var(--f-display);
   font-weight: 800;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   line-height: 1;
   display: grid;
-  gap: 3px;
+  gap: 4px;
+  white-space: nowrap;
 }
 
 .brand-text small {
   font-family: var(--f-body);
   font-weight: 500;
-  font-size: 0.66rem;
+  font-size: 0.62rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+  color: var(--gold);
+}
+
+.nav-team {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 12px;
+  margin-left: 4px;
+  border-radius: 10px;
+  border: 1px dashed var(--line-2);
+  background: none;
   color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.nav-team:hover {
+  color: var(--text);
+  border-color: var(--gold);
+}
+
+.nav-team .i {
+  width: 0.95em;
+  height: 0.95em;
+}
+
+@media (min-width: 901px) and (max-width: 1100px) {
+  .nav a:not(.btn) {
+    padding-inline: 8px;
+    font-size: 0.9rem;
+  }
+
+  .nav-team span,
+  .nav-team {
+    font-size: 0;
+    gap: 0;
+    padding: 0 10px;
+  }
+
+  .nav-team .i {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 .nav {
@@ -171,6 +231,13 @@
   .nav-cta {
     margin: 20px 0 0;
   }
+
+  .nav-team {
+    margin: 16px 0 0;
+    min-height: 48px;
+    justify-content: center;
+    font-size: 0.95rem;
+  }
 }
 
 /* ===== Rodapé ===== */
@@ -178,23 +245,134 @@
   background: var(--bg);
 }
 
-.footer-inner {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px 32px;
-  align-items: center;
-  justify-content: space-between;
-  padding: 32px 0 calc(96px + env(safe-area-inset-bottom));
+.footer-grid {
+  display: grid;
+  gap: 28px;
+  padding: 48px 0 36px;
 }
 
-.footer-inner p {
+@media (min-width: 640px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1000px) {
+  .footer-grid {
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  }
+}
+
+.footer-brand {
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+}
+
+.footer-brand p {
+  margin: 0;
+}
+
+.footer-ig {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.footer-h {
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.footer-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.footer-list a,
+.footer-team {
+  color: var(--text);
+  text-decoration: none;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.footer-list a:hover,
+.footer-team:hover {
+  color: var(--gold-2);
+}
+
+.footer-team {
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: inherit;
+}
+
+.footer-bottom {
+  border-top: 1px solid var(--line);
+}
+
+.footer-bottom-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding: 20px 0 calc(92px + env(safe-area-inset-bottom));
+}
+
+.footer-bottom-inner p {
   margin: 0;
 }
 
 @media (min-width: 720px) {
-  .footer-inner {
-    padding-bottom: 40px;
+  .footer-bottom-inner {
+    padding-bottom: 24px;
   }
+}
+
+.rock-credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line-2);
+  font-size: 0.82rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.rock-credit b {
+  color: var(--text);
+  white-space: nowrap;
+}
+
+@media (max-width: 559px) {
+  .rock-credit {
+    border-radius: 14px;
+    padding: 10px 14px;
+  }
+}
+
+.rock-credit:hover {
+  border-color: var(--gold);
+  color: var(--text);
 }
 
 /* ===== Botão flutuante do WhatsApp ===== */

@@ -151,6 +151,16 @@
   color: var(--text);
 }
 
+.plan-cta {
+  margin-top: 14px;
+}
+
+@media (max-width: 479px) {
+  .plan-cta {
+    width: 100%;
+  }
+}
+
 /* Cartão fidelidade */
 .loyalty-card {
   position: relative;

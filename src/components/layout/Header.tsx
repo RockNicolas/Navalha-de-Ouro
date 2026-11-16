@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react';
-import { DEFAULT_WA_MESSAGE } from '../../config';
+import { useApp } from '../../context/AppContext';
 import { useScrollSpy } from '../../hooks/useScrollSpy';
-import { waUrl } from '../../lib/whatsapp';
 import { Icon } from '../ui/Icon';
 import { Brand } from './Brand';
 import './layout.css';
 
 const LINKS = [
-  { id: 'solucoes', label: 'Soluções' },
-  { id: 'agendar', label: 'Agendamento' },
-  { id: 'gestao', label: 'Gestão' },
-  { id: 'fidelidade', label: 'Fidelidade' },
+  { id: 'servicos', label: 'Serviços' },
+  { id: 'equipe', label: 'Equipe' },
+  { id: 'clube', label: 'Clube' },
+  { id: 'avaliacoes', label: 'Avaliações' },
   { id: 'contato', label: 'Contato' },
 ];
 
 export function Header() {
+  const { setTeamOpen } = useApp();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const active = useScrollSpy(LINKS.map((l) => l.id));
@@ -41,7 +41,7 @@ export function Header() {
   }, [open]);
 
   return (
-    <header className={`site-header${scrolled ? ' scrolled' : ''}${open ? ' open' : ''}`} id="topo">
+    <header className={`site-header${scrolled ? ' scrolled' : ''}${open ? ' open' : ''}`}>
       <div className="container header-inner">
         <Brand />
         <nav className="nav" id="menu" aria-label="Principal">
@@ -55,15 +55,20 @@ export function Header() {
               {l.label}
             </a>
           ))}
-          <a
-            className="btn btn-gold btn-sm nav-cta"
-            href={waUrl(DEFAULT_WA_MESSAGE)}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setOpen(false)}
+          <button
+            type="button"
+            className="nav-team"
+            onClick={() => {
+              setOpen(false);
+              setTeamOpen(true);
+            }}
           >
-            <Icon name="wa" />
-            Falar no WhatsApp
+            <Icon name="lock" />
+            Área da equipe
+          </button>
+          <a className="btn btn-gold btn-sm nav-cta" href="#agendar" onClick={() => setOpen(false)}>
+            <Icon name="calendar" />
+            Agendar horário
           </a>
         </nav>
         <button

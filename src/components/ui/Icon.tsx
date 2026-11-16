@@ -1,6 +1,7 @@
 export type IconName =
   | 'globe' | 'calendar' | 'bell' | 'chart' | 'card' | 'star' | 'check' | 'pin' | 'scissors' | 'arrow'
-  | 'arrow-left' | 'menu' | 'x' | 'clock' | 'users' | 'search' | 'phone' | 'zap' | 'gift' | 'wa' | 'download';
+  | 'arrow-left' | 'menu' | 'x' | 'clock' | 'users' | 'search' | 'phone' | 'zap' | 'gift' | 'wa' | 'download'
+  | 'razor' | 'coffee' | 'lock' | 'instagram' | 'navigation';
 
 interface IconProps {
   name: IconName;
@@ -40,6 +41,11 @@ export function IconSprite() {
         <symbol id="i-phone" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" /><path d="M12 18h.01" /></symbol>
         <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9z" /></symbol>
         <symbol id="i-gift" viewBox="0 0 24 24"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" /></symbol>
+        <symbol id="i-razor" viewBox="0 0 24 24"><path d="M3 21l6-6M9 15l11-9c1-.8 2 .4 1.4 1.4L14 18a2 2 0 0 1-2 1H9z" /></symbol>
+        <symbol id="i-coffee" viewBox="0 0 24 24"><path d="M17 8h1a4 4 0 1 1 0 8h-1M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4zM6 2v3M10 2v3M14 2v3" /></symbol>
+        <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></symbol>
+        <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="4" /><path d="M17.5 6.5h.01" /></symbol>
+        <symbol id="i-navigation" viewBox="0 0 24 24"><path d="M3 11l19-9-9 19-2-8z" /></symbol>
         <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" /></symbol>
         <symbol id="i-wa" viewBox="0 0 24 24">
           <path fill="currentColor" stroke="none" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.8-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.1.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.2-.2-.5-.3z" />

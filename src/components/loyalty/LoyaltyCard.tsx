@@ -41,7 +41,7 @@ export function LoyaltyCard() {
 
   return (
     <>
-      <h3 className="sub-h">Cartão fidelidade digital</h3>
+      <h3 className="sub-h">Seu cartão fidelidade</h3>
       <div className={`loyalty-card${complete ? ' complete' : ''}`}>
         {burst > 0 && <Confetti key={burst} />}
         <div className="lc-top">
@@ -69,9 +69,11 @@ export function LoyaltyCard() {
         </p>
         <button type="button" className="btn btn-gold" onClick={handleClick}>
           <Icon name={complete ? 'gift' : 'scissors'} />
-          {complete ? 'Resgatar corte grátis' : 'Registrar visita'}
+          {complete ? 'Resgatar corte grátis' : 'Simular uma visita'}
         </button>
-        <p className="lc-foot muted small">Sem cartão de papel: fica salvo no celular do cliente e no sistema.</p>
+        <p className="lc-foot muted small">
+          Sem cartão de papel: o barbeiro registra cada visita no sistema e o selo aparece aqui na hora.
+        </p>
       </div>
     </>
   );

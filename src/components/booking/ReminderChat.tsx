@@ -70,7 +70,7 @@ export function ReminderChat() {
       const answer =
         choice === '1'
           ? `Confirmado ✅ Te esperamos às ${ctx.time}. Se surgir algum imprevisto, é só avisar por aqui.`
-          : `Sem problema! Escolha um novo horário por este link: ${slugify(shop)}.com.br/agendar 📅`;
+          : `Sem problema! Escolha um novo horário por este link: ${slugify(shop)}.com.br/agendar 📅 O horário antigo fica liberado pra outro cliente.`;
       timer.current = window.setTimeout(
         () => {
           setTyping(false);
@@ -84,13 +84,11 @@ export function ReminderChat() {
 
   return (
     <>
-      <p className="eyebrow">
-        <span className="num">03</span>Lembretes automáticos
-      </p>
-      <h3 id="lembretes-title">O WhatsApp avisa por vocês</h3>
+      <p className="eyebrow">Lembrete automático</p>
+      <h3 id="lembretes-title">A gente te lembra no WhatsApp</h3>
       <p className="muted">
-        Aviso automático antes do horário, com confirmação em um toque. Menos falta, menos cadeira vazia.
-        {ctx.sample ? ' Faça um agendamento ao lado e veja o lembrete mudar.' : ''}
+        Antes do horário chega uma mensagem pra você confirmar ou remarcar em um toque.
+        {ctx.sample ? ' Faça um agendamento ao lado e veja o seu lembrete aparecer aqui.' : ''}
       </p>
 
       <div className="seg" role="group" aria-label="Quando enviar o lembrete">

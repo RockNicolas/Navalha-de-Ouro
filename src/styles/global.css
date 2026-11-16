@@ -59,7 +59,8 @@ body {
   overflow-x: hidden;
 }
 
-body.menu-open {
+body.menu-open,
+body.panel-open {
   overflow: hidden;
 }
 
@@ -493,6 +494,17 @@ h1 em {
   width: 56px;
   height: 56px;
   font-size: 1.05rem;
+}
+
+.avatar-xl {
+  width: 84px;
+  height: 84px;
+  font-size: 1.6rem;
+  font-family: var(--f-display);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.15),
+    0 0 0 4px var(--bg-2),
+    0 0 0 5px rgba(201, 162, 75, 0.5);
 }
 
 /* Etiquetas */

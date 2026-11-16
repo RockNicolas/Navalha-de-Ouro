@@ -5,14 +5,15 @@ import { Footer } from './components/layout/Footer';
 import { FloatingWhatsApp } from './components/layout/FloatingWhatsApp';
 import { Toast } from './components/layout/Toast';
 import { Hero } from './components/sections/Hero';
-import { Personalize } from './components/sections/Personalize';
-import { Solutions } from './components/sections/Solutions';
-import { SiteDemo } from './components/sections/SiteDemo';
-import { Roadmap } from './components/sections/Roadmap';
-import { Contact } from './components/sections/Contact';
+import { Services } from './components/sections/Services';
+import { Team } from './components/sections/Team';
+import { Gallery } from './components/sections/Gallery';
+import { Reviews } from './components/sections/Reviews';
+import { Location } from './components/sections/Location';
+import { CtaBand } from './components/sections/CtaBand';
 import { BookingSection } from './components/booking/BookingSection';
-import { ManagementSection } from './components/management/ManagementSection';
 import { LoyaltySection } from './components/loyalty/LoyaltySection';
+import { TeamArea } from './components/management/TeamArea';
 
 export default function App() {
   return (
@@ -22,18 +23,18 @@ export default function App() {
       <Header />
       <main id="conteudo">
         <Hero />
-        <Personalize />
-        <Solutions />
-        <div className="pole-divider" aria-hidden="true" />
-        <SiteDemo />
+        <Services />
+        <Team />
         <BookingSection />
-        <ManagementSection />
+        <Gallery />
         <LoyaltySection />
-        <Roadmap />
-        <Contact />
+        <Reviews />
+        <Location />
+        <CtaBand />
       </main>
       <Footer />
       <FloatingWhatsApp />
+      <TeamArea />
       <Toast />
     </AppProvider>
   );

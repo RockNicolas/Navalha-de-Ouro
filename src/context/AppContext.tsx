@@ -1,8 +1,9 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { DEFAULT_SHOP, STORAGE_KEYS } from '../config';
+import { SHOP, STORAGE_KEYS } from '../config';
 import { dayDiff } from '../lib/dates';
 import { readStore, writeStore } from '../lib/storage';
-import type { Booking, MgmtTab, NewBooking } from '../types';
+import { scrollToId } from '../lib/whatsapp';
+import type { Booking, BookingIntent, MgmtTab, NewBooking } from '../types';
 
 interface Toast {
   id: number;
@@ -10,15 +11,17 @@ interface Toast {
 }
 
 interface AppState {
-  /** Nome exibido em toda a página (com fallback). */
   shop: string;
-  /** Valor cru do campo "Apresentando para". */
-  shopInput: string;
-  setShopInput: (value: string) => void;
   bookings: Booking[];
   addBooking: (b: NewBooking) => Booking;
   toast: Toast | null;
   notify: (message: string) => void;
+  /** Pedido de agendamento com serviço/barbeiro pré-escolhido. */
+  bookingIntent: BookingIntent | null;
+  requestBooking: (intent?: Omit<BookingIntent, 'nonce'>) => void;
+  /** Área da equipe (painel de gestão). */
+  teamOpen: boolean;
+  setTeamOpen: (open: boolean) => void;
   mgmtTab: MgmtTab;
   setMgmtTab: (tab: MgmtTab) => void;
 }
@@ -34,16 +37,13 @@ function loadBookings(): Booking[] {
 }
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [shopInput, setShopInput] = useState(() => {
-    const v = readStore<unknown>(STORAGE_KEYS.shop, '');
-    return typeof v === 'string' ? v : '';
-  });
   const [bookings, setBookings] = useState<Booking[]>(loadBookings);
   const [toast, setToast] = useState<Toast | null>(null);
+  const [bookingIntent, setBookingIntent] = useState<BookingIntent | null>(null);
+  const [teamOpen, setTeamOpen] = useState(false);
   const [mgmtTab, setMgmtTab] = useState<MgmtTab>('agenda');
   const toastTimer = useRef<number | undefined>(undefined);
 
-  useEffect(() => writeStore(STORAGE_KEYS.shop, shopInput), [shopInput]);
   useEffect(() => writeStore(STORAGE_KEYS.bookings, bookings), [bookings]);
   useEffect(() => () => window.clearTimeout(toastTimer.current), []);
 
@@ -59,11 +59,26 @@ export function AppProvider({ children }: { children: ReactNode }) {
     toastTimer.current = window.setTimeout(() => setToast(null), 3200);
   }, []);
 
-  const shop = shopInput.trim() || DEFAULT_SHOP;
+  const requestBooking = useCallback((intent: Omit<BookingIntent, 'nonce'> = {}) => {
+    setBookingIntent({ ...intent, nonce: Date.now() });
+    scrollToId('agendar');
+  }, []);
 
   const value = useMemo<AppState>(
-    () => ({ shop, shopInput, setShopInput, bookings, addBooking, toast, notify, mgmtTab, setMgmtTab }),
-    [shop, shopInput, bookings, addBooking, toast, notify, mgmtTab],
+    () => ({
+      shop: SHOP.name,
+      bookings,
+      addBooking,
+      toast,
+      notify,
+      bookingIntent,
+      requestBooking,
+      teamOpen,
+      setTeamOpen,
+      mgmtTab,
+      setMgmtTab,
+    }),
+    [bookings, addBooking, toast, notify, bookingIntent, requestBooking, teamOpen, mgmtTab],
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
