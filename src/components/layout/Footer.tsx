@@ -1,5 +1,4 @@
 import { ROCK_MESSAGE, ROCK_WHATSAPP, SHOP, SHOP_MESSAGE } from '../../config';
-import { useApp } from '../../context/AppContext';
 import { HOURS } from '../../data/shop';
 import { waUrl } from '../../lib/whatsapp';
 import { Icon } from '../ui/Icon';
@@ -7,8 +6,6 @@ import { Brand } from './Brand';
 import './layout.css';
 
 export function Footer() {
-  const { setTeamOpen } = useApp();
-
   return (
     <footer className="footer">
       <div className="pole-divider" aria-hidden="true" />
@@ -55,11 +52,6 @@ export function Footer() {
               <a href={waUrl(SHOP.whatsapp, SHOP_MESSAGE)} target="_blank" rel="noopener noreferrer">
                 WhatsApp da barbearia
               </a>
-            </li>
-            <li>
-              <button type="button" className="footer-team" onClick={() => setTeamOpen(true)}>
-                <Icon name="lock" /> Área da equipe
-              </button>
             </li>
           </ul>
         </div>

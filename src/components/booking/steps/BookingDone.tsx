@@ -8,11 +8,10 @@ import { Icon } from '../../ui/Icon';
 interface BookingDoneProps {
   booking: Booking;
   onIcs: () => void;
-  onPanel: () => void;
   onNew: () => void;
 }
 
-export function BookingDone({ booking, onIcs, onPanel, onNew }: BookingDoneProps) {
+export function BookingDone({ booking, onIcs, onNew }: BookingDoneProps) {
   const service = getService(booking.serviceId);
   const barber = getBarber(booking.barberId);
 
@@ -51,10 +50,6 @@ export function BookingDone({ booking, onIcs, onPanel, onNew }: BookingDoneProps
           Fazer outro agendamento
         </button>
       </div>
-      <button type="button" className="demo-link" onClick={onPanel}>
-        <Icon name="lock" /> Demonstração: ver como esse horário chegou no painel da barbearia
-        <Icon name="arrow" />
-      </button>
     </div>
   );
 }

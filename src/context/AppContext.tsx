@@ -19,9 +19,7 @@ interface AppState {
   /** Pedido de agendamento com serviço/barbeiro pré-escolhido. */
   bookingIntent: BookingIntent | null;
   requestBooking: (intent?: Omit<BookingIntent, 'nonce'>) => void;
-  /** Área da equipe (painel de gestão). */
-  teamOpen: boolean;
-  setTeamOpen: (open: boolean) => void;
+  /** Aba aberta no painel de gestão. */
   mgmtTab: MgmtTab;
   setMgmtTab: (tab: MgmtTab) => void;
 }
@@ -40,12 +38,20 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [bookings, setBookings] = useState<Booking[]>(loadBookings);
   const [toast, setToast] = useState<Toast | null>(null);
   const [bookingIntent, setBookingIntent] = useState<BookingIntent | null>(null);
-  const [teamOpen, setTeamOpen] = useState(false);
   const [mgmtTab, setMgmtTab] = useState<MgmtTab>('agenda');
   const toastTimer = useRef<number | undefined>(undefined);
 
   useEffect(() => writeStore(STORAGE_KEYS.bookings, bookings), [bookings]);
   useEffect(() => () => window.clearTimeout(toastTimer.current), []);
+
+  /* Site e painel em abas diferentes: um agendamento feito no site aparece no painel na hora. */
+  useEffect(() => {
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEYS.bookings) setBookings(loadBookings());
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, []);
 
   const addBooking = useCallback((b: NewBooking): Booking => {
     const booking: Booking = { ...b, id: `bk-${Date.now().toString(36)}`, createdAt: Date.now() };
@@ -73,12 +79,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
       notify,
       bookingIntent,
       requestBooking,
-      teamOpen,
-      setTeamOpen,
       mgmtTab,
       setMgmtTab,
     }),
-    [bookings, addBooking, toast, notify, bookingIntent, requestBooking, teamOpen, mgmtTab],
+    [bookings, addBooking, toast, notify, bookingIntent, requestBooking, mgmtTab],
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

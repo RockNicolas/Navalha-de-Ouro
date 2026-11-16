@@ -13,7 +13,6 @@ import { Location } from './components/sections/Location';
 import { CtaBand } from './components/sections/CtaBand';
 import { BookingSection } from './components/booking/BookingSection';
 import { LoyaltySection } from './components/loyalty/LoyaltySection';
-import { TeamArea } from './components/management/TeamArea';
 
 export default function App() {
   return (
@@ -34,7 +33,6 @@ export default function App() {
       </main>
       <Footer />
       <FloatingWhatsApp />
-      <TeamArea />
       <Toast />
     </AppProvider>
   );

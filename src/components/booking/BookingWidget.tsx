@@ -19,7 +19,7 @@ const TITLES = ['Qual serviço?', 'Com quem?', 'Que dia e horário?', 'Pra quem 
 const DONE_STEP = 4;
 
 export function BookingWidget() {
-  const { bookings, addBooking, notify, setMgmtTab, setTeamOpen, shop, bookingIntent } = useApp();
+  const { bookings, addBooking, notify, shop, bookingIntent } = useApp();
   const [step, setStep] = useState(0);
   const [serviceId, setServiceId] = useState<ServiceId | null>(null);
   const [barber, setBarber] = useState<BarberChoice | null>(null);
@@ -111,11 +111,6 @@ export function BookingWidget() {
     setStep(0);
   }
 
-  function openPanel() {
-    setMgmtTab('agenda');
-    setTeamOpen(true);
-  }
-
   return (
     <div className="bk">
       <StepIndicator step={step} done={step === DONE_STEP} onGoTo={setStep} />
@@ -146,7 +141,6 @@ export function BookingWidget() {
           <BookingDone
             booking={done}
             onIcs={() => downloadIcs(done, getService(done.serviceId), getBarber(done.barberId), shop)}
-            onPanel={openPanel}
             onNew={restart}
           />
         )}

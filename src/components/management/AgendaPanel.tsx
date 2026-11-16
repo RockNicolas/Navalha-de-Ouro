@@ -4,6 +4,7 @@ import { getBarber, getService } from '../../data/catalog';
 import { SAMPLE_AGENDA } from '../../data/demo';
 import { dayLabel, toMinutes } from '../../lib/dates';
 import { brl } from '../../lib/format';
+import type { BarberId } from '../../types';
 import { Avatar } from '../ui/Avatar';
 
 type Status = 'done' | 'now' | 'next';
@@ -23,19 +24,23 @@ function useNowMinutes(): number {
   return now;
 }
 
-export function AgendaPanel() {
+export function AgendaPanel({ barberId }: { barberId?: BarberId }) {
   const { bookings } = useApp();
   const now = useNowMinutes();
 
   const online = useMemo(
-    () => [...bookings].sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time)),
-    [bookings],
+    () =>
+      bookings
+        .filter((b) => !barberId || b.barberId === barberId)
+        .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time)),
+    [bookings, barberId],
   );
+  const agenda = barberId ? SAMPLE_AGENDA.filter((a) => a.barberId === barberId) : SAMPLE_AGENDA;
 
   return (
     <>
       <div className="panel-head">
-        <h3>Agenda de hoje</h3>
+        <h3>{barberId ? 'Minha agenda de hoje' : 'Agenda de hoje'}</h3>
         <div className="legend" aria-hidden="true">
           <span className="st st-done">concluído</span>
           <span className="st st-now">em andamento</span>
@@ -77,7 +82,7 @@ export function AgendaPanel() {
       )}
 
       <ul className="agenda">
-        {SAMPLE_AGENDA.map((a) => {
+        {agenda.map((a) => {
           const s = getService(a.serviceId);
           const barber = getBarber(a.barberId);
           const start = toMinutes(a.time);

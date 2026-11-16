@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useApp } from '../../context/AppContext';
 import { useScrollSpy } from '../../hooks/useScrollSpy';
 import { Icon } from '../ui/Icon';
 import { Brand } from './Brand';
@@ -14,7 +13,6 @@ const LINKS = [
 ];
 
 export function Header() {
-  const { setTeamOpen } = useApp();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const active = useScrollSpy(LINKS.map((l) => l.id));
@@ -55,17 +53,6 @@ export function Header() {
               {l.label}
             </a>
           ))}
-          <button
-            type="button"
-            className="nav-team"
-            onClick={() => {
-              setOpen(false);
-              setTeamOpen(true);
-            }}
-          >
-            <Icon name="lock" />
-            Área da equipe
-          </button>
           <a className="btn btn-gold btn-sm nav-cta" href="#agendar" onClick={() => setOpen(false)}>
             <Icon name="calendar" />
             Agendar horário

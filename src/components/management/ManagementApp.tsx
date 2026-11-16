@@ -1,6 +1,6 @@
 import { useRef, type KeyboardEvent } from 'react';
 import { useApp } from '../../context/AppContext';
-import type { MgmtTab } from '../../types';
+import type { BarberId, MgmtTab } from '../../types';
 import { Icon, type IconName } from '../ui/Icon';
 import { AgendaPanel } from './AgendaPanel';
 import { ClientsPanel } from './ClientsPanel';
@@ -9,29 +9,39 @@ import { FinancePanel } from './FinancePanel';
 import { RemindersPanel } from './RemindersPanel';
 import './management.css';
 
-const TABS: { id: MgmtTab; label: string; icon: IconName }[] = [
-  { id: 'agenda', label: 'Agenda', icon: 'calendar' },
-  { id: 'clientes', label: 'Clientes', icon: 'users' },
-  { id: 'financeiro', label: 'Financeiro', icon: 'chart' },
-  { id: 'comissoes', label: 'Comissões', icon: 'scissors' },
-  { id: 'lembretes', label: 'Lembretes', icon: 'bell' },
+const ALL_TABS: { id: MgmtTab; label: string; mine: string; icon: IconName }[] = [
+  { id: 'agenda', label: 'Agenda', mine: 'Minha agenda', icon: 'calendar' },
+  { id: 'clientes', label: 'Clientes', mine: 'Clientes', icon: 'users' },
+  { id: 'financeiro', label: 'Financeiro', mine: 'Financeiro', icon: 'chart' },
+  { id: 'comissoes', label: 'Comissões', mine: 'Minhas comissões', icon: 'scissors' },
+  { id: 'lembretes', label: 'Lembretes', mine: 'Lembretes', icon: 'bell' },
 ];
 
+interface ManagementAppProps {
+  /** Abas liberadas para o perfil logado (padrão: todas). */
+  tabs?: MgmtTab[];
+  /** Quando é um barbeiro, mostra só os dados dele. */
+  barberId?: BarberId;
+}
+
 /** Sistema de gestão com abas (padrão WAI-ARIA de tabs). */
-export function ManagementApp() {
+export function ManagementApp({ tabs, barberId }: ManagementAppProps) {
   const { mgmtTab, setMgmtTab } = useApp();
   const tabRefs = useRef<Partial<Record<MgmtTab, HTMLButtonElement | null>>>({});
 
+  const visible = ALL_TABS.filter((t) => !tabs || tabs.includes(t.id));
+  const active = visible.some((t) => t.id === mgmtTab) ? mgmtTab : visible[0].id;
+
   function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
-    const idx = TABS.findIndex((t) => t.id === mgmtTab);
+    const idx = visible.findIndex((t) => t.id === active);
     let next = idx;
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (idx + 1) % TABS.length;
-    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (idx - 1 + TABS.length) % TABS.length;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (idx + 1) % visible.length;
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (idx - 1 + visible.length) % visible.length;
     else if (e.key === 'Home') next = 0;
-    else if (e.key === 'End') next = TABS.length - 1;
+    else if (e.key === 'End') next = visible.length - 1;
     else return;
     e.preventDefault();
-    const id = TABS[next].id;
+    const id = visible[next].id;
     setMgmtTab(id);
     tabRefs.current[id]?.focus();
   }
@@ -39,7 +49,7 @@ export function ManagementApp() {
   return (
     <div className="app-main">
       <div className="tabs" role="tablist" aria-label="Módulos do sistema" onKeyDown={onKeyDown}>
-        {TABS.map((t) => (
+        {visible.map((t) => (
           <button
             key={t.id}
             ref={(el) => {
@@ -49,17 +59,17 @@ export function ManagementApp() {
             type="button"
             id={`tab-${t.id}`}
             aria-controls={`panel-${t.id}`}
-            aria-selected={mgmtTab === t.id}
-            tabIndex={mgmtTab === t.id ? 0 : -1}
+            aria-selected={active === t.id}
+            tabIndex={active === t.id ? 0 : -1}
             onClick={() => setMgmtTab(t.id)}
           >
             <Icon name={t.icon} />
-            {t.label}
+            {barberId ? t.mine : t.label}
           </button>
         ))}
       </div>
       <div className="panels">
-        {TABS.map((t) => (
+        {visible.map((t) => (
           <div
             key={t.id}
             className="panel"
@@ -67,12 +77,12 @@ export function ManagementApp() {
             id={`panel-${t.id}`}
             aria-labelledby={`tab-${t.id}`}
             tabIndex={0}
-            hidden={mgmtTab !== t.id}
+            hidden={active !== t.id}
           >
-            {t.id === 'agenda' && <AgendaPanel />}
+            {t.id === 'agenda' && <AgendaPanel barberId={barberId} />}
             {t.id === 'clientes' && <ClientsPanel />}
-            {t.id === 'financeiro' && <FinancePanel active={mgmtTab === 'financeiro'} />}
-            {t.id === 'comissoes' && <CommissionsPanel />}
+            {t.id === 'financeiro' && <FinancePanel active={active === 'financeiro'} />}
+            {t.id === 'comissoes' && <CommissionsPanel barberId={barberId} />}
             {t.id === 'lembretes' && <RemindersPanel />}
           </div>
         ))}

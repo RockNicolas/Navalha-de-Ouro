@@ -5,11 +5,14 @@ import { brl } from '../../lib/format';
 import type { BarberId } from '../../types';
 import { Avatar } from '../ui/Avatar';
 
-export function CommissionsPanel() {
+/** Dono: ajusta a % de todos. Barbeiro (barberId): vê só a própria linha, sem editar. */
+export function CommissionsPanel({ barberId }: { barberId?: BarberId }) {
   const [pct, setPct] = useState<Record<BarberId, number>>(DEFAULT_COMMISSION);
+  const rows = barberId ? BARBERS.filter((b) => b.id === barberId) : BARBERS;
+  const isOwner = !barberId;
 
-  const totalSales = BARBERS.reduce((s, b) => s + BARBER_SALES[b.id], 0);
-  const totalComm = BARBERS.reduce((s, b) => s + (BARBER_SALES[b.id] * pct[b.id]) / 100, 0);
+  const totalSales = rows.reduce((s, b) => s + BARBER_SALES[b.id], 0);
+  const totalComm = rows.reduce((s, b) => s + (BARBER_SALES[b.id] * pct[b.id]) / 100, 0);
 
   const update = (id: BarberId, value: number) =>
     setPct((p) => ({ ...p, [id]: Math.min(100, Math.max(0, Number.isFinite(value) ? value : 0)) }));
@@ -17,8 +20,10 @@ export function CommissionsPanel() {
   return (
     <>
       <div className="panel-head">
-        <h3>Comissões do mês</h3>
-        <span className="muted small">Arraste a % e veja o cálculo na hora</span>
+        <h3>{isOwner ? 'Comissões do mês' : 'Minhas comissões do mês'}</h3>
+        <span className="muted small">
+          {isOwner ? 'Arraste a % e veja o cálculo na hora' : 'Calculado automaticamente a cada atendimento'}
+        </span>
       </div>
       <div className="table-wrap">
         <table className="table">
@@ -27,11 +32,11 @@ export function CommissionsPanel() {
               <th scope="col">Profissional</th>
               <th scope="col">Faturado</th>
               <th scope="col">Comissão</th>
-              <th scope="col">A pagar</th>
+              <th scope="col">A receber</th>
             </tr>
           </thead>
           <tbody>
-            {BARBERS.map((b) => (
+            {rows.map((b) => (
               <tr key={b.id}>
                 <th scope="row">
                   <span className="cm-name">
@@ -41,36 +46,44 @@ export function CommissionsPanel() {
                 </th>
                 <td>{brl(BARBER_SALES[b.id])}</td>
                 <td>
-                  <span className="cm-pct">
-                    <input
-                      type="range"
-                      min={0}
-                      max={60}
-                      step={1}
-                      value={pct[b.id]}
-                      onChange={(e) => update(b.id, Number(e.target.value))}
-                      aria-label={`Comissão de ${b.name} em porcentagem`}
-                    />
-                    <output>{pct[b.id]}%</output>
-                  </span>
+                  {isOwner ? (
+                    <span className="cm-pct">
+                      <input
+                        type="range"
+                        min={0}
+                        max={60}
+                        step={1}
+                        value={pct[b.id]}
+                        onChange={(e) => update(b.id, Number(e.target.value))}
+                        aria-label={`Comissão de ${b.name} em porcentagem`}
+                      />
+                      <output>{pct[b.id]}%</output>
+                    </span>
+                  ) : (
+                    <b>{pct[b.id]}%</b>
+                  )}
                 </td>
                 <td className="gold strong">{brl((BARBER_SALES[b.id] * pct[b.id]) / 100)}</td>
               </tr>
             ))}
           </tbody>
-          <tfoot>
-            <tr>
-              <th scope="row">Total</th>
-              <td>{brl(totalSales)}</td>
-              <td />
-              <td className="gold strong">{brl(totalComm)}</td>
-            </tr>
-          </tfoot>
+          {isOwner && (
+            <tfoot>
+              <tr>
+                <th scope="row">Total</th>
+                <td>{brl(totalSales)}</td>
+                <td />
+                <td className="gold strong">{brl(totalComm)}</td>
+              </tr>
+            </tfoot>
+          )}
         </table>
       </div>
-      <p className="muted small cm-foot">
-        Fica na barbearia: <b className="cream">{brl(totalSales - totalComm)}</b>
-      </p>
+      {isOwner && (
+        <p className="muted small cm-foot">
+          Fica na barbearia: <b className="cream">{brl(totalSales - totalComm)}</b>
+        </p>
+      )}
     </>
   );
 }
